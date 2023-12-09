@@ -1,5 +1,9 @@
 <center><h1> Classification d'images d'incendies</h1></center>
 
+&nbsp;
+![](images/pres.png)
+
+&nbsp;
 ### Table of Contents
 [**I. Introduction**](#i-introduction)<br>
 
