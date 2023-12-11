@@ -1,5 +1,8 @@
 <center><h1> Classification d'images d'incendies</h1></center>
 
+### BOUEDO THEO & DORE CORALIE
+**Date :** 01/12/2023
+
 &nbsp;
 ![](images/pres.png)
 
@@ -128,7 +131,7 @@ Les avantages du transfert d'apprentissage sont multiples. Il offre une amélior
 
 Dans notre cas spécifique, nous avons choisi d'implémenter le transfert d'apprentissage avec EfficientNetB0 pour notre projet de détection d'incendie. Ce modèle est reconnu pour son efficacité, capable de fournir de bons résultats tout en étant moins gourmand en ressources de calcul que d'autres architectures. Malgré le fait qu'EfficientNetB0 a été entraîné sur des images de résolution plus élevée (224x224 pixels), nous avons décidé de conserver une résolution de 128x128 pixels pour garder la même résolution entre les modèles afin de les comparer. 
 
-*Ps : J'aurais aimé tester tous les modèles en résolution 224x224 pour évaluer pleinement le potentiel de cette méthode, mais la réexécution des modèles étant assez chronophage, environ 1 heure par modèle, je n'ai pas entrepris cette démarche.*
+*Ps : On aurait aimé tester tous les modèles en résolution 224x224 pour évaluer pleinement le potentiel de cette méthode, mais la réexécution des modèles étant assez chronophage, environ 1 heure par modèle, nous avons pas entrepris cette démarche.*
 
 #### Figure 3 : Évolution de la perte et de la précision durant l'entraînement et la validation du CNN avec EfficientNetB0
 
