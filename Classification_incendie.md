@@ -1,7 +1,7 @@
 <center><h1> Classification d'images d'incendies</h1></center>
 
 ### BOUEDO THEO & DORE CORALIE
-**Date :** 01/12/2023
+**Date :** 18/12/2023
 
 &nbsp;
 ![](images/pres.png)
@@ -20,6 +20,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;[B. Modèle CNN avec CLAHE](#b-modèle-cnn-avec-clahe)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[C. Modèle CNN avec transfert d'apprentissage](#c-modèle-cnn-avec-transfert-dapprentissage)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[D. Modèle SVM](#d-modèle-svm)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[E. Optimisation](#e-optimisation)<br>
+
+
 
 [**IV. Conclusion / Discussion**](#iv-conclusion--discussion)<br>
 
@@ -49,7 +52,7 @@ En raison de la disparition de certains liens et de la présence d'images corrom
 
 Nous observons qu'entre les datasets initiaux et finaux, il y a eu une perte de 20 à 25% du volume total d'images. Cette diminution est uniforme, affectant de manière équivalente les deux ensembles de données et les deux catégories d'images.
 
-Quant à la répartition entre les images représentant des incendies et celles n'en représentant pas, le ratio final de 65% pour les images 'non-incendie' contre 35% pour celles 'incendie' est intéressant. Une telle distribution fournit un équilibre adéquat entre les classes, essentiel pour éviter les biais dans l'entraînement des modèles de machine learning.
+Quant à la répartition entre les images représentant des incendies et celles n'en représentant pas, le ratio final de 65% pour les images 'non-incendie' contre 35% pour celles 'incendie' est intéressant.
 
 En ce qui concerne la répartition entre les ensembles d'entraînement et de validation, avec un peu plus de 10% des images allouées à la validation, ce ratio est conforme aux recommandations standards en data science. 
 
@@ -80,11 +83,14 @@ En résumé, `ImageDataGenerator` ne se limite pas à augmenter le volume des do
 Pour nos modèles de réseaux de neurones convolutifs (CNN), nous avons systématiquement fixé le nombre d'époques à 10 en raison des contraintes de temps de calcul.  Nous n'avons pas procédé à un ajustement fin des hyperparamètres pour ces modèles (CNN et SVM), cependant, il est important de noter que nous avons inclus des étapes d'optimisation dans le notebook pour démontrer la procédure, même si ces étapes n'ont pas été poussées à leur terme pour les raisons mentionnées.
 
 ### A. Modèle CNN 
+
+Un Convolutional Neural Network (CNN) est une forme avancée de réseau de neurones artificiels, très utilisé dans le traitement et l'analyse d'images. À la base, un CNN partage des éléments fondamentaux avec les réseaux de neurones classiques. Comme ces derniers, un CNN est composé de neurones qui possèdent des poids et des biais pouvant être ajustés au cours de l'apprentissage. Chaque neurone reçoit des entrées, réalise un produit scalaire suivi d'une fonction d'activation, permettant au réseau de traiter et de transmettre des informations. Cependant, pour les CNN, l'architecture se distingue par l'intégration de couches de convolution et de pooling spécifiques. Ces couches permettent l'extraction et le traitement efficace des caractéristiques spatiales, comme les bords et les textures dans les images.
+
+Dans un scénario de classification d'images, comme pour déterminer si une image contient un incendie ou non, un CNN peut être particulièrement intéressant. Lors de l'entraînement, le réseau apprend à identifier et à différencier les caractéristiques spécifiques d'images contenant un incendie (comme les flammes, la fumée, les couleurs vives) de celles qui n'en contiennent pas. Ainsi, une fois entraîné, le CNN peut analyser une nouvelle image et déterminer avec une certaine précision si elle représente un incendie. Ce processus se réalise grâce à la succession des différentes couches de convolution qui extraient et analysent les caractéristiques, suivies de couches de pooling qui réduisent la dimensionnalité de l'image, et enfin de couches entièrement connectées qui classifient l'image en fonction des caractéristiques extraites.
+
+
 Afin de fournir une compréhension claire et structurée de notre modèle de détection d'incendie, nous avons résumé ses caractéristiques principales dans la table ci dessous.
  
-
-
-
 #### Table 2 : Paramètres du Modèle de Détection d'Incendie CNN
 
 | Couche             | Filtres | Taille du filtre | Activation | Input Shape       | Opération        |
@@ -103,7 +109,7 @@ Afin de fournir une compréhension claire et structurée de notre modèle de dé
 
 Notre modèle de détection d'incendie utilise des couches `Conv2D` pour capturer une gamme de caractéristiques visuelles à partir d'images, en commençant par des éléments simples comme les bords et les textures à des détails plus complexes grâce à l'augmentation du nombre de filtres de 16 à 64 à travers les couches successives. La fonction d'activation ReLU accompagne chaque couche convolutive pour apporter la non-linéarité nécessaire, permettant ainsi au modèle d'apprendre des motifs visuels plus complexes inhérents aux images d'incendie. 
 
-Les couches `MaxPooling2D` interviennent pour réduire les dimensions des caractéristiques apprises, ce qui aide à minimiser le surajustement et permet au modèle d'être robuste face à la variabilité de la position et de l'échelle des incendies dans différentes images. Après les couches de convolution et de pooling, la fonction `Flatten` transforme les caractéristiques en un vecteur unique pour faciliter la classification par les couches denses suivantes, qui synthétisent ces caractéristiques en informations de haut niveau. En fin de compte, la couche de sortie utilise une activation sigmoïde pour prédire la probabilité qu'une image donnée contienne un incendie, fournissant ainsi une classification binaire claire.
+Les couches `MaxPooling2D` interviennent pour réduire les dimensions des caractéristiques apprises, ce qui aide à minimiser le surajustement et permet au modèle d'être robuste face à la variabilité de la position et de l'échelle des incendies dans différentes images. Après les couches de convolution et de pooling, la fonction `Flatten` transforme les caractéristiques en un vecteur unique pour faciliter la classification par les couches denses suivantes, qui synthétisent ces caractéristiques en informations de haut niveau. En fin de compte, la couche de sortie utilise une ``activation sigmoïde`` pour prédire la probabilité qu'une image donnée contienne un incendie, fournissant ainsi une classification binaire claire.
 
 #### Figure 1 : Évolution de la perte et de la précision durant l'entraînement et la validation du CNN
 ![](images/m1.png)
@@ -131,7 +137,7 @@ Les avantages du transfert d'apprentissage sont multiples. Il offre une amélior
 
 Dans notre cas spécifique, nous avons choisi d'implémenter le transfert d'apprentissage avec EfficientNetB0 pour notre projet de détection d'incendie. Ce modèle est reconnu pour son efficacité, capable de fournir de bons résultats tout en étant moins gourmand en ressources de calcul que d'autres architectures. Malgré le fait qu'EfficientNetB0 a été entraîné sur des images de résolution plus élevée (224x224 pixels), nous avons décidé de conserver une résolution de 128x128 pixels pour garder la même résolution entre les modèles afin de les comparer. 
 
-*Ps : On aurait aimé tester tous les modèles en résolution 224x224 pour évaluer pleinement le potentiel de cette méthode, mais la réexécution des modèles étant assez chronophage, environ 1 heure par modèle, nous avons pas entrepris cette démarche.*
+*Ps : On aurait aimé tester tous les modèles en résolution 224x224 pour évaluer pleinement le potentiel de cette méthode, mais la réexécution des modèles étant déjà assez chronophage, environ 1 heure par modèle, nous avons pas entrepris cette démarche.*
 
 #### Figure 3 : Évolution de la perte et de la précision durant l'entraînement et la validation du CNN avec EfficientNetB0
 
@@ -149,6 +155,67 @@ L'approche SVM repose sur la recherche d'un hyperplan qui sépare au mieux les d
 
 Suite à l'extraction des caractéristiques, nous avons procédé à la standardisation des données et à l'entraînement de notre modèle sur l'ensemble de données d'entraînement. L'objectif était d'évaluer la précision du modèle sur l'ensemble de validation. En utilisant un modèle sans ajustement fin des hyperparamètres, nous avons atteint une précision de 0.74.
 
+### E. Optimisation
+
+Dans ce contexte, l'aspect le plus crucial est le coût et le temps nécessaires pour le calcul. Utilisant une configuration standard accessible à la plupart des utilisateurs, l'entraînement des modèles de réseaux de neurones convolutionnels (CNN) mentionnés ci-dessus prenait approximativement 100 minutes. Pour optimiser cela, le nombre d'images utilisées pour l'entraînement a été limité à 1 000 et à 200 pour la validation, réduisant ainsi le volume d'images de 80%. Cette modification a significativement diminué le temps de calcul pour le modèle CNN, le faisant passer de 100 minutes à seulement 7 minutes.
+
+Pour l'optimisation des hyperparamètres, deux méthodes sont généralement utilisées : `RandomSearch` et `GridSearch`.
+
+`RandomSearch` sélectionne aléatoirement des combinaisons d'hyperparamètres à tester, ce qui est plus rapide et souvent plus efficace que de tester toutes les combinaisons possibles, surtout quand l'espace des hyperparamètres est grand. Cependant, il pourrait manquer la combinaison optimale puisque la recherche est aléatoire. `GridSearch`, en revanche, teste systématiquement toutes les combinaisons possibles d'hyperparamètres dans la grille définie. Cela garantit de trouver la meilleure combinaison, mais peut être très lent et coûteux en termes de calcul, surtout avec un grand nombre d'hyperparamètres. En résumé, RandomSearch est préférable pour un aperçu rapide et efficace, tandis que GridSearch convient mieux quand la précision de la sélection des hyperparamètres est cruciale et que le temps de calcul n'est pas une contrainte majeure.
+
+Dans cet exercice, nous avons appliqué la méthode RandomSearch pour ajuster les paramètres du modèle CNN et la méthode GridSearch pour le modèle SVM. Ces techniques nous ont permis d'optimiser les paramètres clés de ces modèles. Cependant, il est important de noter que l'optimisation peut devenir bien plus complexe. Cette complexité provient de plusieurs facteurs, tels que la diversité des hyperparamètres, les interactions entre eux, et la nécessité de trouver un équilibre entre précision du modèle et risque de surajustement. En outre, une contrainte majeure demeure le coût de calcul : plus l'optimisation est poussée, plus les ressources computationnelles requises augmentent.
+
+#### i. CNN
+
+#### Synthèse des Résultats de l'Optimisation des Hyperparamètres du Modèle CNN
+
+| Trial | Optimizer | Learning Rate | Input Units | Dense Units | Validation Accuracy |
+|-------|-----------|---------------|-------------|-------------|---------------------|
+| 1     | SGD       | 0.009476      | 192         | 32          | 0.748571            |
+| 2     | Adam      | 0.000649      | 64          | 96          | 0.731429            |
+| 3     | SGD       | 0.000296      | 160         | 64          | 0.640000            |
+| 4     | SGD       | 0.000640      | 192         | 32          | 0.634286            |
+| 5     | Adam      | 0.006591      | 128         | 128         | 0.571429            |
+
+En analysant le tableau, on peut observer comment différents hyperparamètres affectent la précision de validation du modèle :
+
+`Optimizer`: L'optimiseur joue un rôle essentiel dans l'apprentissage des modèles, influençant leur mise à jour et la convergence vers un minimum de la fonction de perte. Le tableau montre des performances variables entre les essais utilisant SGD (Stochastic Gradient Descent) et Adam (Adaptive Moment Estimation). SGD, simple et rapide, est efficace pour des problèmes moins complexes, tandis qu'Adam, combinant des techniques de momentum et d'ajustement adaptatif du taux d'apprentissage, est souvent préféré pour des tâches plus complexes grâce à sa stabilité et son adaptation aux données. Bien que le Trial 1 avec SGD montre la meilleure précision, cela ne prouve pas sa supériorité absolue sur Adam, car l'efficacité de l'optimiseur dépend fortement des spécificités du modèle et des autres hyperparamètres.
+
+` Learning rate` : Le taux d'apprentissage détermine l'ampleur des mises à jour des poids du modèle à chaque étape de l'entraînement. Un taux trop élevé peut conduire à un apprentissage instable, tandis qu'un taux trop bas peut ralentir le processus d'apprentissage ou entraîner une convergence vers un minimum local. Le Trial 1 a un taux d'apprentissage relativement élevé pour SGD et obtient de bons résultats, mais cela varie avec la combinaison des autres hyperparamètres.
+
+`Input Units et Dense Units` : Ces paramètres définissent le nombre d'unités dans les couches convolutive et dense, respectivement. Ils influencent la capacité du modèle à apprendre des caractéristiques complexes. Un nombre élevé d'unités peut améliorer la capacité du modèle à apprendre, mais peut aussi entraîner un surapprentissage et augmenter le temps de calcul. Par exemple, le Trial 5, avec un grand nombre d'unités denses (128), a la plus faible précision, ce qui pourrait indiquer un surajustement ou une complexité excessive pour les données en question
+
+En conclusion, ce tableau démontre l'importance cruciale du choix et de la combinaison des hyperparamètres dans la performance des modèles de machine learning. Les variations observées dans la précision de validation soulignent que l'équilibre optimal entre l'optimiseur, le taux d'apprentissage et la configuration des couches est essentiel pour atteindre une efficacité maximale, sans tomber dans le surapprentissage ou l'insuffisance d'apprentissage
+
+
+#### ii. SVM
+
+#### Synthèse des Résultats de l'Optimisation des Hyperparamètres du Modèle SVM
+
+| param_svm__C | param_svm__kernel | mean_test_score |
+|--------------|-------------------|-----------------|
+| 1            | rbf               | 0.749719        |
+| 1            | linear            | 0.635241        |
+| 1            | poly              | 0.686869        |
+| 10           | rbf               | 0.727273        |
+| 10           | linear            | 0.635241        |
+| 10           | poly              | 0.661055        |
+| 100          | rbf               | 0.707071        |
+| 100          | linear            | 0.635241        |
+| 100          | poly              | 0.644220        |
+
+
+En examinant le tableau des résultats de GridSearchCV pour le modèle SVM, voici une interprétation des effets des hyperparamètres sur la performance du modèle :
+
+``Paramètre C :`` Le paramètre C est un facteur de régularisation dans le SVM qui contrôle le compromis entre un modèle simple et un ajustement précis aux données d'entraînement. Des valeurs plus élevées de C tendent à favoriser un ajustement précis, mais peuvent conduire à un surapprentissage, tandis que des valeurs plus faibles favorisent un modèle plus simple et généralisable.
+Dans ce tableau, C=1 donne les meilleurs résultats avec le noyau RBF, indiquant un équilibre efficace entre ajustement et régularisation. Augmenter C à 10 ou 100 n'améliore pas significativement les performances, suggérant qu'une régularisation accrue ne bénéficie pas nécessairement au modèle.
+
+``Type de noyau ``: Les noyaux rbf, linear, et poly montrent des performances différentes, reflétant leur capacité à modéliser des relations dans les données.
+Le noyau rbf semble être le plus efficace, surtout avec C=1, indiquant sa capacité à capturer les relations non linéaires complexes dans les données. Cela peut être particulièrement bénéfique pour les tâches de classification d'images où les relations entre les pixels ne sont pas linéaires.
+Les noyaux linear et poly montrent des performances inférieures dans cet ensemble de données. Cela pourrait signifier que les relations linéaires ou polynomiales simples ne sont pas suffisantes pour capturer la complexité des données d'image pour la classification d'incendie.
+
+En conclusion, ce tableau met en lumière l'importance de choisir le bon noyau et le bon niveau de régularisation pour maximiser la performance du modèle SVM, particulièrement dans des tâches complexes comme la classification d'images. Le noyau RBF avec un paramètre de régularisation modéré semble être le choix optimal.
+
 ## IV. Conclusion / Discussion
 #### Tableau résumé
 | Modèles        | Accuracy |
@@ -160,9 +227,9 @@ Suite à l'extraction des caractéristiques, nous avons procédé à la standard
 
 
 
-En conclusion, le modèle CNN traditionnel s'est révélé être le plus efficace avec une précision (accuracy) de 0.81, un résultat remarquable étant donné les limitations en termes de ressources de calcul. Il est important de souligner que nous avons réduit la résolution des images à 128 pixels, ce qui implique que des images de plus grande taille auraient potentiellement amélioré les performances. De plus, la limitation à 10 époques soulève des interrogations sur la convergence complète des modèles, sans certitude que le plein potentiel a été atteint. Le temps de calcul a également empêché la mise en œuvre d'une optimisation fine des hyperparamètres.
+En conclusion, le modèle CNN traditionnel s'est révélé être le plus efficace avec une précision (accuracy) de 0.81, un résultat remarquable étant donné les limitations en termes de ressources de calcul. Nous avons identifié des aspects à améliorer, comme la concentration principale sur l'accuracy malgré une répartition non équitable des images entre incendie et non incendie. Une réajustement de la répartition des images ou l'utilisation de métriques supplémentaires comme la précision, le rappel, et le F1-score aurait été idéale pour une meilleure évaluation. De même, il aurait été plus judicieux de réaliser d'abord de l'optimisation sur un petit jeu de données pour affiner les hyperparamètres, puis de l'étendre à un ensemble de données plus large pour valider ces choix. Cependant, ces ajustements nécessitaient de refaire l'ensemble des calculs, une tâche considérablement chronophage étant donné nos ressources limitées. Ainsi, ces changements n'ont pas été réalisés pour éviter un allongement significatif du temps de projet.
 
-Malgré ces contraintes, ce projet a jeté des bases solides pour l'analyse et la classification d'images. Même si nous n'avons pas atteint une conclusion définitive, principalement en raison des longs temps de traitement, ce défi peut être aisément surmonté par l'utilisation de ressources de calcul plus puissantes, comme celles disponibles dans le cloud. Cette expérience a donc été une opportunité d'apprentissage précieuse, démontrant qu'avec des ressources adéquates, les performances et les résultats peuvent être significativement améliorés.
+Enfin, ce projet a néanmoins établi une base solide pour l'analyse et la classification d'images. Les limitations, principalement les longs temps de traitement, auraient pu être surmontées avec des ressources de calcul plus importantes, comme celles offertes par le cloud. Cette expérience s'est révélée être une opportunité d'apprentissage précieuse, montrant que des ressources adéquates peuvent améliorer significativement les performances et les résultats.
 
 
 
