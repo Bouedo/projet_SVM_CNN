@@ -205,7 +205,7 @@ En conclusion, ce tableau démontre l'importance cruciale du choix et de la comb
 | 100          | poly              | 0.644220        |
 
 
-En examinant le tableau des résultats de GridSearchCV pour le modèle SVM, voici une interprétation des effets des hyperparamètres sur la performance du modèle :
+En examinant le tableau des résultats de GridSearchCV pour le modèle SVM, voici une interprétation des effets des hyperparamètres sur la performance du modèle 
 
 ``Paramètre C :`` Le paramètre C est un facteur de régularisation dans le SVM qui contrôle le compromis entre un modèle simple et un ajustement précis aux données d'entraînement. Des valeurs plus élevées de C tendent à favoriser un ajustement précis, mais peuvent conduire à un surapprentissage, tandis que des valeurs plus faibles favorisent un modèle plus simple et généralisable.
 Dans ce tableau, C=1 donne les meilleurs résultats avec le noyau RBF, indiquant un équilibre efficace entre ajustement et régularisation. Augmenter C à 10 ou 100 n'améliore pas significativement les performances, suggérant qu'une régularisation accrue ne bénéficie pas nécessairement au modèle.
